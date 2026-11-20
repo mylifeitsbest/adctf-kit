@@ -1,0 +1,23 @@
+# НИКОГДА не коммитить секреты
+secrets.txt
+*.secret
+*_token*
+.env
+
+# рабочие артефакты игры
+*.pcap
+pcap/
+/data/
+backups/
+backups_local/
+flags*.txt
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ос
+.DS_Store
+Thumbs.db
