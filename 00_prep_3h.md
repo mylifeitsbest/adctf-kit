@@ -14,7 +14,7 @@
 1. `git clone https://github.com/DestructiveVoice/DestructiveFarm` (или любой форк) в репо.
 2. Прочитайте [03_farm_submit.md](03_farm_submit.md). Разберитесь с конфигом ЗАРАНЕЕ: протокол `forcad`,
    поля `SYSTEM_URL`, `SYSTEM_TOKEN`/`TEAM_TOKEN`, `FLAG_FORMAT`, `SUBMIT_PERIOD`, лимит флагов за отправку.
-3. Запустите локально хоть на пустом — убедитесь, что веб-морда поднимается (`docker compose up` или `python3 server/app.py`).
+3. Запустите локально хоть на пустом — убедитесь, что веб-морда поднимается (`python3 server/app.py` или `server/start_server.sh`).
 4. Положите рядом `scripts/submit_min.py` — запасной минимальный сабмиттер на случай, если ферма закапризничает.
 
 ## Шаг 2. Шаблоны эксплойтов (30 мин)
@@ -25,7 +25,7 @@
 ## Шаг 3. Скрипты защиты (20 мин)
 Положите в репо и прочитайте:
 - `scripts/capture.sh` — ротационный tcpdump (запустить на vulnbox в 10:00).
-- `scripts/backup.sh` — бэкап сервиса (tar + дамп docker volume).
+- `scripts/backup.sh` — бэкап сервиса (tar кода + дамп БД).
 - `scripts/portaudit.sh` — что торчит наружу.
 - [01_hardening.md](01_hardening.md), [02_firewall.md](02_firewall.md) — чеклисты, выполнять по бумажке.
 

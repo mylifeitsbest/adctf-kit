@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Бэкап сервиса: код + (если docker) образ и volume. Запускать на vulnbox ДО открытия сети.
+# Бэкап сервиса (без докера): код + дамп БД. Запускать на vulnbox ДО открытия сети.
 # Использование: ./backup.sh <путь_к_сервису> <имя>
 set -euo pipefail
 SRC="${1:?путь к сервису}"; NAME="${2:?имя}"
@@ -9,16 +9,8 @@ mkdir -p "$DEST"
 echo "[*] архив кода..."
 tar czf "$DEST/code.tgz" -C "$(dirname "$SRC")" "$(basename "$SRC")"
 
-if command -v docker >/dev/null 2>&1; then
-  echo "[*] docker образы/volume (если есть)..."
-  docker ps --format '{{.Names}}' | while read -r c; do
-    docker commit "$c" "backup/${c}:$(date +%s)" || true
-  done
-  docker volume ls -q | while read -r v; do
-    docker run --rm -v "$v":/v -v "$DEST":/b alpine \
-      sh -c "tar czf /b/vol_${v}.tgz -C /v . " || true
-  done
-fi
+if command -v pg_dumpall >/dev/null 2>&1; then sudo -u postgres pg_dumpall > "$DEST/pg.sql" 2>/dev/null || true; fi
+if command -v mysqldump  >/dev/null 2>&1; then mysqldump -u root --all-databases > "$DEST/mysql.sql" 2>/dev/null || true; fi
 
 echo "[OK] бэкап в $DEST"
 echo "!!! Скопируй на СВОЮ машину:  scp -r vulnbox:$DEST ./"

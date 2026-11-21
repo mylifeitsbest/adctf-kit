@@ -24,7 +24,7 @@ CONFIG = {
 }
 ```
 > Точные поля/протокол — в `server/config.py` и `server/app/protocols/forcad*.py`. Бывают `forcad` (HTTP) и `forcad_tcp`.
-3. Запуск: `docker compose up -d` или `python3 server/app.py`. Веб-морда `http://127.0.0.1:5000`.
+3. Запуск: `python3 server/app.py` (или `server/start_server.sh`). Веб-морда `http://127.0.0.1:5000`.
 4. Эксплойт под фермой: `python3 start_sploit.py sploit.py -u http://127.0.0.1:5000 --pool-size 8` (флаги см. --help).
 
 ## Сабмит ForcAD (типовой, ПРОВЕРИТЬ)

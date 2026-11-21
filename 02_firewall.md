@@ -28,7 +28,7 @@ MySQL     /etc/mysql/**/*.cnf                      : bind-address = 127.0.0.1
 Redis     /etc/redis/redis.conf                    : bind 127.0.0.1
 Mongo     /etc/mongod.conf                         : bindIp: 127.0.0.1
 ```
-Если сервис в docker — проверь проброс портов в `docker-compose.yml` (`"0.0.0.0:5432:5432"` → `"127.0.0.1:5432:5432"`), перезапусти контейнер.
+Докера нет: правь конфиг БД/сервиса напрямую (строки выше) и перезапусти через `sudo systemctl restart <svc>`. Проверь, что порт ушёл с 0.0.0.0 на 127.0.0.1: `ss -tulpn`.
 
 ---
 

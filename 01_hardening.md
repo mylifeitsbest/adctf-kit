@@ -60,24 +60,19 @@ sudo systemctl disable --now smbd nmbd avahi-daemon cups 2>/dev/null
 
 ### B1. Осмотреться
 ```bash
-ls -la /                 # где лежат сервисы (часто /opt, /srv, /home, или docker)
-docker ps                # если в docker
-docker compose ls
+ls -la /                 # где лежат сервисы (часто /opt, /srv, /home, /var/www)
+systemctl list-units --type=service   # сервисы как systemd-юниты
+cat /etc/systemd/system/*.service     # чем и откуда запускаются
 ss -tulpn                # какие порты торчат
 ```
 
 ### B2. БЭКАП КАЖДОГО СЕРВИСА (до открытия сети!)
 Железо физическое, отката «снапшотом» нет. Бэкапим сами.
 ```bash
-# см. scripts/backup.sh — делает tar кода + дамп docker volume/БД
+# см. scripts/backup.sh — делает tar кода + дамп БД (postgres/mysql)
 ./backup.sh <путь_к_сервису> <имя>
 # И скопировать бэкап на СВОЮ Kali-машину (не только на vulnbox):
 scp -r vulnbox:/backups ./backups_local
-```
-Если docker:
-```bash
-docker commit <container> backup/<svc>:round0          # образ
-docker run --rm -v <vol>:/v -v $PWD:/b alpine tar czf /b/<vol>.tgz -C /v .   # volume
 ```
 
 ### B3. Поднять исходники под git (чтобы видеть свои патчи и дифать атаки)
